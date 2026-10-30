@@ -6,7 +6,6 @@
       "displayName": "Galaxy A55 5G | Kernel 6.1.157",
       "models": ["SM-A5560"],
       "kernelVersions": ["6.1.157"],
-      "requiresFreshP0Session": false,
       "exploit": {
         "url": "https://raw.githubusercontent.com/wangtw0121/Root-My-Galaxy-Payloads/main/artifacts/a55x-A5560ZCSIDZI3/cve-2026-43499-app.so",
         "size": 141008

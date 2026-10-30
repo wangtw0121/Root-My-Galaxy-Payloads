@@ -197,6 +197,21 @@
         "size": 4780056
       }
     },
+        {
+      "payloadId": "a55x-A5560ZCSIDZI3",
+      "displayName": "Galaxy A55 5G | Kernel 6.1.157",
+      "models": ["SM-A5560"],
+      "kernelVersions": ["6.1.157"],
+      "requiresFreshP0Session": false,
+      "exploit": {
+        "url": "https://raw.githubusercontent.com/wangtw0121/Root-My-Galaxy-Payloads/main/artifacts/a55x-A5560ZCSIDZI3/cve-2026-43499-app.so",
+        "size": 104128
+      },
+      "kernelsu": {
+        "url": "https://raw.githubusercontent.com/wangtw0121/Root-My-Galaxy-Payloads/main/kernelsu/ksud-A5560ZCSIDZI3-kdp",
+        "size": 4780056
+      }
+    },
     {
       "payloadId": "essi-A566EXXSCCZG6",
       "displayName": "Galaxy A56 5G | Kernel 6.6.102",

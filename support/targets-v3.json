@@ -205,7 +205,7 @@
       "requiresFreshP0Session": false,
       "exploit": {
         "url": "https://raw.githubusercontent.com/wangtw0121/Root-My-Galaxy-Payloads/main/artifacts/a55x-A5560ZCSIDZI3/cve-2026-43499-app.so",
-        "size": 140784
+        "size": 140592
       },
       "kernelsu": {
         "url": "https://raw.githubusercontent.com/wangtw0121/Root-My-Galaxy-Payloads/main/kernelsu/ksud-A5560ZCSIDZI3-kdp",
@@ -220,7 +220,7 @@
       "requiresFreshP0Session": false,
       "exploit": {
         "url": "https://raw.githubusercontent.com/wangtw0121/Root-My-Galaxy-Payloads/main/artifacts/a55x-A5560ZHSIDZI3/cve-2026-43499-app.so",
-        "size": 140768
+        "size": 140784
       },
       "kernelsu": {
         "url": "https://raw.githubusercontent.com/wangtw0121/Root-My-Galaxy-Payloads/main/kernelsu/ksud-A5560ZHSIDZI3-kdp",
